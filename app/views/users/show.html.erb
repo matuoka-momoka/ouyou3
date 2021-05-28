@@ -1,0 +1,52 @@
+<main>
+ <p>Welcome! You have signed up successfully.</p>
+ <div class="container">
+ <div class="row">
+ <div class="col-md-3 offset-md-1">
+  <h1>User info</h1>
+  <%= attachment_image_tag @user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg" %>
+  <table class="table">
+  <tbody>
+<tr></tr>
+  <tr>
+ <th>name</th>
+ <th>mm</th>
+  </tr>
+  <tr>
+ <th>introduction</th>
+ <th></th>
+  </tr>
+</tbody></table>
+
+
+   <a class="btn btn-outline-secondary btn-block fas fa-user-cog edit_user_path"></a>
+
+  <h2>New book</h2>
+  <%= form_with model: @book, local:true do |f| %>
+  <p>Title</p>
+   <%= f.text_field :title %>
+  <p>Opinion</p>
+   <%= f.text_area :Opinion %>
+  <div class="form-group">
+   <%= f.submit "Create Book", class: "btn btn-success" %>
+   <% end %>
+  </div>
+
+     <div class="col-md-8">
+       <h2>Books detail</h2>
+       <table class="table table-hover table-inverse">
+         <tr>
+          <th></th>
+          <th>Title</th>
+          <th>Opinion</th>
+         </tr>
+         <tr>
+          <td><%= @book.title %></td>
+          <td><%= @book.body %></td>
+         </tr>
+       </table>
+      </div>
+   </div>
+  </div>
+ </div>
+ </main>
