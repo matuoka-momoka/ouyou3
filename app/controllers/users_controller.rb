@@ -1,39 +1,44 @@
 class UsersController < ApplicationController
  def show
-  @user = current_user
+  @user = User.find(params[:id])
   # @book = @user.book.page(params[:page]).reverse_order
   @book = Book.new
-
+  @books = @user.books
  end
 
-def index
- @user = current_user
- @booknew = Book.new
+ def index
+  @user = current_user
+  @booknew = Book.new
+  @users = User.all
+ end
 
+ def edit
+  @user = User.find(params[:id])
+   if @user.id == current_user.id
+    render :edit
+   else
+    redirect_to user_path(current_user.id)
+   end
+ end
 
-end
+ def update
+     @user = User.find(params[:id])
+   if @user.update(user_params)
+         flash[:notice] = "You have created book successfully."
+         redirect_to user_path(@user)
+   else
+       render:edit
+   end
+ end
 
-def edit
- @book = current_user
-
-end
-
-def update
-    @book = Book.find(params[:id])
-  if @book.update(book_params)
-        flash[:notice] = "You have created book successfully."
-        redirect_to :book
-
-  else
-      render:edit
+  def change
+  add_index :users, :email, unique: true
   end
-end
 
-  private
-  # ストロングパラメータ
-  def user_params
-    params.permit(:title, :body)
-  end
-
+   private
+   # ストロングパラメータ
+   def user_params
+     params.require(:user).permit(:name,:introduction,:profile_image)
+   end
 
 end

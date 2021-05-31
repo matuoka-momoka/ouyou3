@@ -2,17 +2,36 @@
 
  <div class="container">
   <div class="row">
-  <div class="col-md-3 offset-md-1">
+  <div class="col-md-3">
+        <% if @book.errors.any? %>
+       <%= @book.errors.count %>errors prohibited this obj from being saved:
+       <% @book.errors.full_messages.each do |message| %>
+       <%= message %>
+       <% end %>
+       <% end %>
    <h2>User info</h2>
-   <%= attachment_image_tag @user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg" %>
-   <label for="inputName">Name</label>
-   <label for="inputName">introduction</label>
+   <table>
+    <thead>
+     <tbody>
+      <%= attachment_image_tag @users, :profile_image, :fill, 100, 100, fallback: "no_image.jpg" %>
+      <table class="table">
+        <tbody>
+      <tr></tr>
+        <tr>
+       <th>name</th>
+       <%= @users.name %>
+        </tr>
+        <tr>
+       <th>introduction</th>
+       <%= @users.introduction %>
+        </tr>
+      </tbody></table>
 
-       <%= link_to edit_user_path(@user.id) do %>
+       <%= link_to edit_user_path(@users.id) do %>
       <i class="fas fa-user-cog" ></i>
      <% end %>
 
-    <a class="btn btn-outline-secondary btn-block fas fa-user-cog edit_user_path"></a>
+
 
    <h2>New book</h2>
    <%= form_with model: @booknew, local:true do |f| %>
@@ -24,25 +43,38 @@
     <%= f.submit "Create Book", class: "btn btn-success" %>
     <% end %>
    </div>
+   </div>
 
-     <div class="col-md-8">
-       <h2>Books detail</h2>
+     <div class="col-md-8 offset-md-1">
+       <h2>Book  detail</h2>
        <table class="table table-hover table-inverse">
         <thead>
           <tr>
             <th></th>
             <th>Title</th>
             <th>Opinion</th>
+            <th></th>
             <th colspan="3"></th>
           </tr>
         </thead>
          <tbody>
+          <td></td>
+           <td><%= link_to user_path(@users.id) do %>
+           <%= attachment_image_tag @users, :profile_image, size: "40x40", fallback:"no_image.jpg" %>
+           <% end %></td>
+           <td><%= link_to @users.name,user_path(@users.id)  %></td>
           <td><%= @book.title %></td>
           <td><%= @book.body %></td>
+         <% if @book.user.id == current_user.id %>
+           <div class="form-group">
+           <td><%= link_to  'Edit', edit_book_path(@book), class:"btn btn-sm btn-success" %></td>
+           <td><%= link_to 'Destroy', book_path(@book), method: :delete,  class:"btn btn-sm btn-danger" %></td>
+         <% end %>
           </tbody>
          </tr>
        </table>
       </div>
+  </div>
   </div>
 </main>
 

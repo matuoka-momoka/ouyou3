@@ -5,35 +5,48 @@ class BooksController < ApplicationController
 
   # 投稿データの保存
   def create
+    @user = current_user
     @book = Book.new(book_params)
     @book.user_id = current_user.id
     #@user= user.find(params[:id])
     if @book.save
-      redirect_to book_path(@book)
+       flash[:notice] = "You have created book successfully."
+       redirect_to book_path(@book)
     else
+     @user = current_user
+     @books = Book.all
       render:index
     end
   end
 
 def edit
-　@book = User.find(params[:id])
+ @book = Book.find(params[:id])
+  if @book.user == current_user
+   render "edit"
+  else
+   redirect_to books_path
+  end
 end
 
   def index
     @book = Book.new
     @user = current_user
-    @username = User.find(session[:user_id])
+    @books = Book.all
+
+    #@username = User.find(session[:user_id])
 
   end
+
 
   def show
     #book =book.update(book_params)
     #book.save
     #redirect_to '/top'
-    @user = current_user
     @booknew = Book.new
     @book = Book.find(params[:id])
-    @username = User.find(session[:user_id])
+    @user = current_user
+    @users = @book.user
+    #@username = User.find(session[:user_id])
   end
 
    #private
@@ -46,13 +59,16 @@ end
     @book = Book.find(params[:id])
     if @book.update(book_params)
         flash[:notice] = "You have created book successfully."
-        redirect_to :book
+        redirect_to book_path(@book)
     else
       render:edit
     end
   end
 
   def destroy
+    @book = Book.find(params[:id])
+    @book.destroy
+    redirect_to books_path
   end
 
    # 投稿データのストロングパラメータ

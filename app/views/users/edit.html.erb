@@ -1,22 +1,23 @@
-<div class="row">
+  <div class="container">
+    <div class="row">
     <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
-    <h2>User info</h2>
-    <form enctype="multipart/form-data" action="/users/45807" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="_method" value="patch"><input type="hidden" name="authenticity_token" value="IpAO3rBA1sdYjBCwInHWkcRAehAD77ZaolwQjYa3fLN7iOo71k8Mb3XjoQOSVzm2GJS1H1NVBsU2NHgBE+Jj5w==">
 
-      <div class="form-group">
-        <label for="user_name">Name</label>
-        <input class="form-control name" type="text" value="ee" name="user[name]" id="user_name">
-      </div>
-     <div class="form-group">
-        <label for="user_image">Image</label>
-        <input value="{}" data-reference="771902b5b0aa000b209fe56c7a49e7d7" type="hidden" name="user[profile_image]"><input class="form-control-file user_image" data-reference="771902b5b0aa000b209fe56c7a49e7d7" include_hidden="false" type="file" name="user[profile_image]" id="user_profile_image">
-      </div>
-      <div class="form-group">
-        <label for="user_introduction">Introduction</label>
-        <textarea class="form-control introduction" name="user[introduction]" id="user_introduction"></textarea>
-      </div>
-      <div class="form-group">
-        <input type="submit" name="commit" value="Update User" class="btn btn-secondary" data-disable-with="Update User">
-      </div>
-</form>  </div>
-</div>
+      <h2>User info</h2>
+       <% if @user.errors.any? %>
+       <%= @user.errors.count %>errors prohibited this obj from being saved:
+       <% @user.errors.full_messages.each do |message| %>
+       <%= message %>
+       <% end %>
+       <% end %>
+         <p>name</p>
+         <%= form_with model: @user, local:true do |f| %>
+          <%= f.text_field :name %>
+           <p>Image</p>
+            <%= f.attachment_field :profile_image %>
+           <p>Introduction</p>
+            <%=f.text_area :introduction %>
+            <%= f.submit "Update User", class: "btn btn-secondary" %>
+            <% end %>
+    </div>
+   </div>
+  </div>
