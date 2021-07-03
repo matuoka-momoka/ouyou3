@@ -49,6 +49,21 @@
            <td><%= link_to "Show", user_path(user) %></td>
          </tr>
          <% end %>
+
+         <% if @book_favorites(current_user) %>
+         <p>
+         <%= link_to book_favorites_path(@book), method: :delete do %>
+         ♥<%= @book_favorites.favorites.count %>
+         <% end %>
+         </p>
+         <% else %>
+         <p>
+         <%= link_to book_favorites_path(@book), method: :book do %>
+         ♡<%= @book_favorites.favorites.count %>
+         <% end %>
+         </p>
+
+  <% end %>
        </table>
       </div>
       </div>
