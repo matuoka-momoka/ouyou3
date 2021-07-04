@@ -1,5 +1,9 @@
 class BookCommentsController < ApplicationController
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 8c9886d0fc2ff2c2a3b1084824cc18a5a29ebe2f
   	def create
 		@book = Book.find(params[:book_id])
 		@book_comment = BookComment.new(book_comment_params)
@@ -24,3 +28,4 @@ class BookCommentsController < ApplicationController
 		params.require(:book_comment).permit(:comment)
 	end
 end
+
