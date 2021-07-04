@@ -32,20 +32,16 @@ end
     @book = Book.new
     @user = current_user
     @books = Book.all
-
-    #@username = User.find(session[:user_id])
-
   end
-
 
   def show
     #book =book.update(book_params)
     #book.save
     #redirect_to '/top'
-    @booknew = Book.new
     @book = Book.find(params[:id])
-    @user = current_user
-    @users = @book.user
+    @book_new = Book.new
+    @book_comment = BookComment.new
+    @book_comments = @book.book_comments
     #@username = User.find(session[:user_id])
   end
 

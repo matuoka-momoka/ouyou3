@@ -19,15 +19,15 @@
       <tr></tr>
         <tr>
        <th>name</th>
-       <%= @users.name %>
+       <%= @book.book_comments %>
         </tr>
         <tr>
        <th>introduction</th>
-       <%= @users.introduction %>
+       <%= @book.book_comments %>
         </tr>
       </tbody></table>
 
-       <%= link_to edit_user_path(@users.id) do %>
+       <%= link_to  edit_book_path(@book) do %>
       <i class="fas fa-user-cog" ></i>
      <% end %>
 
@@ -59,10 +59,10 @@
         </thead>
          <tbody>
           <td></td>
-           <td><%= link_to user_path(@users.id) do %>
+           <td><%= link_to user_path(@book.user) do %>
            <%= attachment_image_tag @users, :profile_image, size: "40x40", fallback:"no_image.jpg" %>
            <% end %></td>
-           <td><%= link_to @users.name,user_path(@users.id)  %></td>
+           <td><%= link_to user_path(@book.user) %></td>
           <td><%= @book.title %></td>
           <td><%= @book.body %></td>
          <% if @book.user.id == current_user.id %>
@@ -70,6 +70,23 @@
            <td><%= link_to  'Edit', edit_book_path(@book), class:"btn btn-sm btn-success" %></td>
            <td><%= link_to 'Destroy', book_path(@book), method: :delete,  class:"btn btn-sm btn-danger" %></td>
          <% end %>
+
+         #コメント
+          <% @book_comments.each do |book_comment| %>
+            <p><%= attachment_image_tag('sample-author1.jpg') %></p>
+            <%= book_comment.user.name %>
+            <%= book_comment.created_at.strftime('%Y/%m/%d') %><%= book_comment.count %>
+          <% end %>
+          </div>
+           <p><%= link_to "{book_comments.count} コメント", book %>
+          <div class="new-comment">
+          <%= form_with(model:[@book, @book_comment], local: true) do |f| %>
+            <%= f.text_area :comment, rows:'5',placeholder: "コメントをここに" %>
+            <%= f.submit "送信する" %>
+          <% end %>
+</div>
+
+         </tr>
           </tbody>
          </tr>
        </table>
